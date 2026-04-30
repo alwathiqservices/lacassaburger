@@ -1,118 +1,281 @@
 <!DOCTYPE html>
-<html lang="ar">
+<html lang="ar" dir="rtl">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <!-- إعدادات خاصة بالهاتف لمنع التكبير وجعله يبدو كتطبيق -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <title>LaCasa Burger | لاكاسا برجر</title>
+    
+    <!-- خطوط جوجل (Cairo) -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
+    <!-- مكتبة الأيقونات FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-<title>LaCasa Burger</title>
+    <style>
+        /* إعدادات عامة للهاتف */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Cairo', sans-serif;
+            /* منع ظهور التحديد الأزرق عند النقر في الهواتف */
+            -webkit-tap-highlight-color: transparent; 
+        }
 
-<style>
+        /* إخفاء شريط التمرير الجانبي ليبدو كتطبيق */
+        ::-webkit-scrollbar {
+            display: none;
+        }
 
-body{
-margin:0;
-font-family:Tahoma, Arial;
-background:linear-gradient(180deg,#b30000,#ff1a1a);
-color:white;
-text-align:center;
-}
+        body {
+            background: linear-gradient(-45deg, #1a0000, #4d0000, #1a0000, #330000);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+            color: white;
+            text-align: center;
+            min-height: 100vh;
+            overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: center; /* توسيط المحتوى في شاشة الهاتف */
+        }
 
-.container{
-width:90%;
-max-width:300px;
-margin:auto;
-padding-top:40px;
-}
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
 
-.logo img{
-width:100px;
-border-radius:20px;
-box-shadow:0 10px 30px rgba(0,0,0,0.4);
-margin-bottom:10px;
-}
+        /* --- الشاشة الافتتاحية (Splash Screen) --- */
+        #splash-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #0a0000;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.6s ease, visibility 0.6s ease;
+        }
 
-.name{
-font-size:34px;
-font-weight:bold;
-letter-spacing:1px;
-}
+        /* تنسيق شعارك في الشاشة الافتتاحية */
+        .splash-logo-img {
+            width: 130px; /* حجم الشعار في شاشة البداية */
+            height: 130px;
+            object-fit: contain;
+            border-radius: 50%; /* يجعله دائرياً، احذف هذا السطر إذا كان شعارك مربعاً */
+            box-shadow: 0 0 40px rgba(255, 51, 51, 0.6);
+            animation: pulseLogo 1.2s infinite alternate;
+        }
 
-.subtitle{
-color:#ffd6d6;
-margin-bottom:35px;
-font-size:16px;
-}
+        .splash-text {
+            margin-top: 20px;
+            font-size: 26px;
+            font-weight: 900;
+            letter-spacing: 2px;
+            color: white;
+            text-transform: uppercase;
+        }
 
-.button{
-display:block;
-background:white;
-color:#b30000;
-text-decoration:none;
-padding:18px;
-margin:16px 0;
-border-radius:18px;
-font-size:19px;
-font-weight:bold;
-box-shadow:0 8px 20px rgba(0,0,0,0.3);
-transition:0.3s;
-}
+        @keyframes pulseLogo {
+            0% { transform: scale(1); box-shadow: 0 0 20px rgba(255, 51, 51, 0.4); }
+            100% { transform: scale(1.08); box-shadow: 0 0 60px rgba(255, 51, 51, 1); }
+        }
 
-.button:hover{
-transform:scale(1.07);
-background:#fff3f3;
-}
+        /* --- المحتوى الرئيسي --- */
+        .container {
+            width: 90%;
+            max-width: 450px;
+            margin: auto;
+            padding: 30px 0;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s cubic-bezier(0.25, 0.8, 0.25, 1), transform 0.8s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
 
-.button span{
-margin-right:8px;
-}
+        .container.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
 
-.footer{
-margin-top:50px;
-font-size:14px;
-color:#ffd6d6;
-}
+        .logo-container {
+            position: relative;
+            display: inline-block;
+        }
 
-</style>
+        /* تنسيق شعارك في الصفحة الرئيسية */
+        .logo img {
+            width: 120px;
+            height: 120px;
+            object-fit: cover;
+            border-radius: 50%; /* دائري */
+            border: 3px solid #ff3333;
+            box-shadow: 0 0 30px rgba(255, 51, 51, 0.5);
+            margin-bottom: 15px;
+        }
+
+        .name {
+            font-size: 30px;
+            font-weight: 900;
+            letter-spacing: 1px;
+            margin-bottom: 5px;
+        }
+
+        .subtitle {
+            color: #ff9999;
+            font-size: 15px;
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* --- الأزرار المخصصة للهاتف --- */
+        .links-wrapper {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            color: white;
+            text-decoration: none;
+            padding: 18px 20px; /* مساحة لمس أكبر للهاتف */
+            border-radius: 20px; /* انحناء أكثر للأزرار */
+            font-size: 18px;
+            font-weight: 700;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+            transition: transform 0.2s ease, background 0.3s ease;
+            position: relative;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        /* تفاعل حقيقي عند لمس الشاشة (تأثير التطبيقات) */
+        .button:active {
+            transform: scale(0.95) !important; /* الزر يصغر قليلاً عند اللمس */
+            background: rgba(255, 51, 51, 0.9);
+        }
+
+        .container.show .button {
+            animation: slideUp 0.6s forwards;
+        }
+
+        .container.show .button:nth-child(1) { animation-delay: 0.2s; }
+        .container.show .button:nth-child(2) { animation-delay: 0.3s; }
+        .container.show .button:nth-child(3) { animation-delay: 0.4s; }
+        .container.show .button:nth-child(4) { animation-delay: 0.5s; }
+        .container.show .button:nth-child(5) { animation-delay: 0.6s; }
+
+        @keyframes slideUp {
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .button i {
+            position: absolute;
+            right: 20px;
+            font-size: 24px;
+        }
+
+        .btn-menu i { color: #ffcc00; }
+        .btn-whatsapp i { color: #25D366; }
+        .btn-instagram i { color: #E1306C; }
+        .btn-tiktok i { color: #ffffff; }
+        .btn-facebook i { color: #1877F2; }
+
+        .footer {
+            margin-top: 40px;
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.5);
+            letter-spacing: 1px;
+        }
+
+        .footer span {
+            color: #ff3333;
+            font-weight: bold;
+        }
+    </style>
 </head>
-
 <body>
 
-<div class="container">
+    <!-- الشاشة الافتتاحية -->
+    <div id="splash-screen">
+        <!-- 🔴 ضع مسار شعارك هنا بدلاً من logo.png للشاشة الافتتاحية -->
+        <img src="logo.png" alt="LaCasa Burger Loading" class="splash-logo-img">
+        <div class="splash-text">LaCasa Burger</div>
+    </div>
 
-<div class="logo">
-<img src="logo.png">
-</div>
+    <!-- المحتوى الرئيسي -->
+    <div class="container" id="main-content">
+        
+        <div class="logo-container">
+            <div class="logo">
+                <!-- 🔴 ضع مسار شعارك هنا بدلاً من logo.png للصفحة الرئيسية -->
+                <img src="logo.png" alt="LaCasa Burger Logo">
+            </div>
+        </div>
 
-<div class="name">LaCasa Burger </div>
+        <div class="name">LaCasa Burger</div>
 
-<div class="subtitle">
-الفلوجة-شارع الثرثار </div>
+        <div class="subtitle">
+            <i class="fa-solid fa-location-dot"></i> الفلوجة - شارع الثرثار
+        </div>
 
-<a class="button" href="https://menubarcode.com/lacassaburger#" target="_blank">
-<span></span> مشاهدة المنيو
-</a>
+        <div class="links-wrapper">
+            <a class="button btn-menu" href="https://menubarcode.com/lacassaburger#" target="_blank">
+                <i class="fa-solid fa-utensils"></i> مشاهدة المنيو
+            </a>
 
-<a class="button" href="https://wa.me/9647811100884">
-<span></span>  واتساب
-</a>
+            <a class="button btn-whatsapp" href="https://wa.me/9647811100884" target="_blank">
+                <i class="fa-brands fa-whatsapp"></i> واتساب
+            </a>
 
+            <a class="button btn-instagram" href="https://www.instagram.com/lacasa_burger1" target="_blank">
+                <i class="fa-brands fa-instagram"></i> انستغرام
+            </a>
 
-<a class="button" href="https://www.instagram.com/lacasa_burger1" target="_blank">
-<span></span> Instagram
-</a>
+            <a class="button btn-tiktok" href="https://www.tiktok.com/@lacasa_burger1" target="_blank">
+                <i class="fa-brands fa-tiktok"></i> تيك توك
+            </a>
+            
+            <a class="button btn-facebook" href="https://www.facebook.com/share/18UTYxck98/?mibextid=wwXIfr" target="_blank">
+                <i class="fa-brands fa-facebook-f"></i> فيسبوك
+            </a>
+        </div>
 
-  <a class="button" href="https://www.tiktok.com/@lacasa_burger1" target="_blank">
-<span></span> Tiktok
-</a>
-  
-<a class="button" href="https://www.facebook.com/share/18UTYxck98/?mibextid=wwXIfr" target="_blank">
-<span></span> Facebook
-</a>
+        <div class="footer">
+            © <span>Alwathiq</span>Services
+        </div>
 
-<div class="footer">
-© AlwathiqServices
-</div>
+    </div>
 
-</div>
+    <!-- كود الجافاسكربت للشاشة الافتتاحية -->
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            // الشاشة تختفي بعد 2 ثانية (2000 مللي ثانية)
+            setTimeout(() => {
+                const splash = document.getElementById('splash-screen');
+                const content = document.getElementById('main-content');
+                
+                splash.style.opacity = '0';
+                splash.style.visibility = 'hidden';
+                
+                content.classList.add('show');
+            }, 2000); 
+        });
+    </script>
 
 </body>
 </html>
