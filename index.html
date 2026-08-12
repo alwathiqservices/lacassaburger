@@ -2,57 +2,72 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <!-- إعدادات خاصة بالهاتف لمنع التكبير وجعله يبدو كتطبيق -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <meta name="theme-color" content="#1a0000">
+    <meta name="description" content="LaCasa Burger - الفلوجة، شارع الثرثار. شاهد المنيو وتابعنا على مواقع التواصل الاجتماعي.">
     <title>LaCasa Burger | لاكاسا برجر</title>
-    
+
     <!-- خطوط جوجل (Cairo) -->
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
     <!-- مكتبة الأيقونات FontAwesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
-        /* إعدادات عامة للهاتف */
+        :root {
+            --red: #ff3333;
+            --red-soft: rgba(255, 51, 51, 0.5);
+            --glass: rgba(255, 255, 255, 0.06);
+            --glass-border: rgba(255, 255, 255, 0.14);
+        }
+
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
             font-family: 'Cairo', sans-serif;
-            /* منع ظهور التحديد الأزرق عند النقر في الهواتف */
-            -webkit-tap-highlight-color: transparent; 
+            -webkit-tap-highlight-color: transparent;
         }
 
-        /* إخفاء شريط التمرير الجانبي ليبدو كتطبيق */
-        ::-webkit-scrollbar {
-            display: none;
+        ::-webkit-scrollbar { display: none; }
+
+        html, body {
+            height: 100%;
         }
 
         body {
-            background: linear-gradient(-45deg, #1a0000, #4d0000, #1a0000, #330000);
-            background-size: 400% 400%;
-            animation: gradientBG 15s ease infinite;
+            background: radial-gradient(circle at 50% 0%, #3a0000 0%, #1a0000 45%, #0a0000 100%);
             color: white;
             text-align: center;
             min-height: 100vh;
             overflow-x: hidden;
             display: flex;
             flex-direction: column;
-            justify-content: center; /* توسيط المحتوى في شاشة الهاتف */
+            justify-content: center;
+            position: relative;
         }
 
-        @keyframes gradientBG {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
+        /* طبقة توهج متحركة خفيفة في الخلفية لإضفاء إحساس احترافي */
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            background:
+                radial-gradient(circle at 20% 20%, rgba(255, 51, 51, 0.12), transparent 40%),
+                radial-gradient(circle at 80% 75%, rgba(255, 51, 51, 0.10), transparent 45%);
+            animation: floatGlow 10s ease-in-out infinite alternate;
+            pointer-events: none;
+            z-index: 0;
         }
 
-        /* --- الشاشة الافتتاحية (Splash Screen) --- */
+        @keyframes floatGlow {
+            0%   { transform: translate(0, 0) scale(1); }
+            100% { transform: translate(-3%, 3%) scale(1.08); }
+        }
+
+        /* --- الشاشة الافتتاحية --- */
         #splash-screen {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            inset: 0;
             background: #0a0000;
             display: flex;
             flex-direction: column;
@@ -62,13 +77,12 @@
             transition: opacity 0.6s ease, visibility 0.6s ease;
         }
 
-        /* تنسيق شعارك في الشاشة الافتتاحية */
         .splash-logo-img {
-            width: 130px; /* حجم الشعار في شاشة البداية */
+            width: 130px;
             height: 130px;
             object-fit: contain;
-            border-radius: 50%; /* يجعله دائرياً، احذف هذا السطر إذا كان شعارك مربعاً */
-            box-shadow: 0 0 40px rgba(255, 51, 51, 0.6);
+            border-radius: 50%;
+            box-shadow: 0 0 40px var(--red-soft);
             animation: pulseLogo 1.2s infinite alternate;
         }
 
@@ -81,8 +95,30 @@
             text-transform: uppercase;
         }
 
+        .splash-dots {
+            margin-top: 14px;
+            display: flex;
+            gap: 6px;
+        }
+
+        .splash-dots span {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: var(--red);
+            animation: dotBounce 1.2s infinite ease-in-out;
+        }
+
+        .splash-dots span:nth-child(2) { animation-delay: 0.15s; }
+        .splash-dots span:nth-child(3) { animation-delay: 0.3s; }
+
+        @keyframes dotBounce {
+            0%, 80%, 100% { transform: translateY(0); opacity: 0.4; }
+            40% { transform: translateY(-6px); opacity: 1; }
+        }
+
         @keyframes pulseLogo {
-            0% { transform: scale(1); box-shadow: 0 0 20px rgba(255, 51, 51, 0.4); }
+            0%   { transform: scale(1); box-shadow: 0 0 20px rgba(255, 51, 51, 0.4); }
             100% { transform: scale(1.08); box-shadow: 0 0 60px rgba(255, 51, 51, 1); }
         }
 
@@ -95,6 +131,8 @@
             opacity: 0;
             transform: translateY(30px);
             transition: opacity 0.8s cubic-bezier(0.25, 0.8, 0.25, 1), transform 0.8s cubic-bezier(0.25, 0.8, 0.25, 1);
+            position: relative;
+            z-index: 1;
         }
 
         .container.show {
@@ -107,35 +145,60 @@
             display: inline-block;
         }
 
-        /* تنسيق شعارك في الصفحة الرئيسية */
-        .logo img {
+        .logo {
+            position: relative;
             width: 120px;
             height: 120px;
+            margin: 0 auto 18px;
+        }
+
+        .logo img {
+            width: 100%;
+            height: 100%;
             object-fit: cover;
-            border-radius: 50%; /* دائري */
-            border: 3px solid #ff3333;
-            box-shadow: 0 0 30px rgba(255, 51, 51, 0.5);
-            margin-bottom: 15px;
+            border-radius: 50%;
+            border: 3px solid var(--red);
+            box-shadow: 0 0 30px var(--red-soft);
+            position: relative;
+            z-index: 2;
+            background: #0a0000;
+        }
+
+        /* حلقة نبض هادئة حول الشعار */
+        .logo::after {
+            content: "";
+            position: absolute;
+            inset: -8px;
+            border-radius: 50%;
+            border: 1px solid rgba(255, 51, 51, 0.4);
+            animation: ringPulse 2.6s ease-out infinite;
+            z-index: 1;
+        }
+
+        @keyframes ringPulse {
+            0%   { transform: scale(0.9); opacity: 0.8; }
+            100% { transform: scale(1.35); opacity: 0; }
         }
 
         .name {
             font-size: 30px;
             font-weight: 900;
             letter-spacing: 1px;
-            margin-bottom: 5px;
+            margin-bottom: 6px;
+            text-shadow: 0 2px 12px rgba(255, 51, 51, 0.35);
         }
 
         .subtitle {
             color: #ff9999;
             font-size: 15px;
-            margin-bottom: 30px;
+            margin-bottom: 32px;
             display: flex;
             justify-content: center;
             align-items: center;
             gap: 8px;
         }
 
-        /* --- الأزرار المخصصة للهاتف --- */
+        /* --- الأزرار --- */
         .links-wrapper {
             display: flex;
             flex-direction: column;
@@ -146,26 +209,35 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            background: rgba(255, 255, 255, 0.08);
+            background: var(--glass);
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.15);
+            border: 1px solid var(--glass-border);
             color: white;
             text-decoration: none;
-            padding: 18px 20px; /* مساحة لمس أكبر للهاتف */
-            border-radius: 20px; /* انحناء أكثر للأزرار */
+            padding: 18px 20px;
+            border-radius: 20px;
             font-size: 18px;
             font-weight: 700;
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
-            transition: transform 0.2s ease, background 0.3s ease;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.25);
+            transition: transform 0.2s ease, background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
             position: relative;
             opacity: 0;
             transform: translateY(20px);
+            overflow: hidden;
         }
 
-        /* تفاعل حقيقي عند لمس الشاشة (تأثير التطبيقات) */
+        /* لمعة خفيفة تمر فوق الزر عند التحويم (أجهزة تدعم hover) */
+        @media (hover: hover) {
+            .button:hover {
+                border-color: rgba(255, 255, 255, 0.3);
+                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+                transform: translateY(-2px);
+            }
+        }
+
         .button:active {
-            transform: scale(0.95) !important; /* الزر يصغر قليلاً عند اللمس */
+            transform: scale(0.96) !important;
             background: rgba(255, 51, 51, 0.9);
         }
 
@@ -202,8 +274,19 @@
             letter-spacing: 1px;
         }
 
+        .footer a {
+            color: rgba(255, 255, 255, 0.5);
+            text-decoration: none;
+            transition: color 0.25s ease;
+        }
+
+        .footer a:hover,
+        .footer a:active {
+            color: rgba(255, 255, 255, 0.8);
+        }
+
         .footer span {
-            color: #ff3333;
+            color: var(--red);
             font-weight: bold;
         }
     </style>
@@ -212,17 +295,16 @@
 
     <!-- الشاشة الافتتاحية -->
     <div id="splash-screen">
-        <!-- 🔴 ضع مسار شعارك هنا بدلاً من logo.png للشاشة الافتتاحية -->
         <img src="logo.png" alt="LaCasa Burger Loading" class="splash-logo-img">
         <div class="splash-text">LaCasa Burger</div>
+        <div class="splash-dots"><span></span><span></span><span></span></div>
     </div>
 
     <!-- المحتوى الرئيسي -->
     <div class="container" id="main-content">
-        
+
         <div class="logo-container">
             <div class="logo">
-                <!-- 🔴 ضع مسار شعارك هنا بدلاً من logo.png للصفحة الرئيسية -->
                 <img src="logo.png" alt="LaCasa Burger Logo">
             </div>
         </div>
@@ -234,42 +316,40 @@
         </div>
 
         <div class="links-wrapper">
-            <a class="button btn-menu" href="https://alwathiqservices.github.io/lacasaburger1/" target="_blank">
+            <a class="button btn-menu" href="https://alwathiqservices.github.io/lacasaburger1/" target="_blank" rel="noopener">
                 <i class="fa-solid fa-utensils"></i> مشاهدة المنيو
             </a>
 
-            <a class="button btn-instagram" href="https://www.instagram.com/lacasa_burger1" target="_blank">
+            <a class="button btn-instagram" href="https://www.instagram.com/lacasa_burger1" target="_blank" rel="noopener">
                 <i class="fa-brands fa-instagram"></i> انستغرام
             </a>
 
-            <a class="button btn-tiktok" href="https://www.tiktok.com/@lacasa_burger1" target="_blank">
+            <a class="button btn-tiktok" href="https://www.tiktok.com/@lacasa_burger1" target="_blank" rel="noopener">
                 <i class="fa-brands fa-tiktok"></i> تيك توك
             </a>
-            
-            <a class="button btn-facebook" href="https://www.facebook.com/share/18UTYxck98/?mibextid=wwXIfr" target="_blank">
+
+            <a class="button btn-facebook" href="https://www.facebook.com/share/18UTYxck98/?mibextid=wwXIfr" target="_blank" rel="noopener">
                 <i class="fa-brands fa-facebook-f"></i> فيسبوك
             </a>
         </div>
 
         <div class="footer">
-            © <span>Alwathiq</span>Services
+            © <a href="https://www.instagram.com/alwathiqservices" target="_blank" rel="noopener"><span>Alwathiq</span>Services</a>
         </div>
 
     </div>
 
-    <!-- كود الجافاسكربت للشاشة الافتتاحية -->
     <script>
         document.addEventListener("DOMContentLoaded", () => {
-            // الشاشة تختفي بعد 2 ثانية (2000 مللي ثانية)
             setTimeout(() => {
                 const splash = document.getElementById('splash-screen');
                 const content = document.getElementById('main-content');
-                
+
                 splash.style.opacity = '0';
                 splash.style.visibility = 'hidden';
-                
+
                 content.classList.add('show');
-            }, 2000); 
+            }, 2000);
         });
     </script>
 
