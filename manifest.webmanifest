@@ -1,0 +1,19 @@
+{
+  "name": "لاكاسا برجر",
+  "short_name": "لاكاسا برجر",
+  "id": "/lacassaburger/",
+  "start_url": "/lacassaburger/",
+  "scope": "/lacassaburger/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "lang": "ar",
+  "dir": "rtl",
+  "background_color": "#1a0000",
+  "theme_color": "#1a0000",
+  "description": "صفحة استقبال لاكاسا برجر — الفلوجة، شارع الثرثار",
+  "icons": [
+    { "src": "/lacassaburger/assets/icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "/lacassaburger/assets/icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "/lacassaburger/assets/icons/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}

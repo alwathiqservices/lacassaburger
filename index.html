@@ -1,357 +1,100 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
-    <meta name="theme-color" content="#1a0000">
-    <meta name="description" content="LaCasa Burger - الفلوجة، شارع الثرثار. شاهد المنيو وتابعنا على مواقع التواصل الاجتماعي.">
-    <title>LaCasa Burger | لاكاسا برجر</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>لاكاسا برجر | LaCasa Burger</title>
+<meta name="description" content="لاكاسا برجر - الفلوجة، شارع الثرثار. تصفّح المنيو وتابعنا على مواقع التواصل الاجتماعي.">
+<meta name="theme-color" content="#1a0000">
 
-    <!-- خطوط جوجل (Cairo) -->
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
-    <!-- مكتبة الأيقونات FontAwesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link rel="manifest" href="/lacassaburger/manifest.webmanifest">
+<link rel="icon" href="/lacassaburger/assets/icons/icon-192.png" type="image/png">
+<link rel="apple-touch-icon" href="/lacassaburger/assets/icons/apple-touch-icon-180.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="لاكاسا برجر">
+<meta name="mobile-web-app-capable" content="yes">
 
-    <style>
-        :root {
-            --red: #ff3333;
-            --red-soft: rgba(255, 51, 51, 0.5);
-            --glass: rgba(255, 255, 255, 0.06);
-            --glass-border: rgba(255, 255, 255, 0.14);
-        }
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Cairo', sans-serif;
-            -webkit-tap-highlight-color: transparent;
-        }
-
-        ::-webkit-scrollbar { display: none; }
-
-        html, body {
-            height: 100%;
-        }
-
-        body {
-            background: radial-gradient(circle at 50% 0%, #3a0000 0%, #1a0000 45%, #0a0000 100%);
-            color: white;
-            text-align: center;
-            min-height: 100vh;
-            overflow-x: hidden;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            position: relative;
-        }
-
-        /* طبقة توهج متحركة خفيفة في الخلفية لإضفاء إحساس احترافي */
-        body::before {
-            content: "";
-            position: fixed;
-            inset: 0;
-            background:
-                radial-gradient(circle at 20% 20%, rgba(255, 51, 51, 0.12), transparent 40%),
-                radial-gradient(circle at 80% 75%, rgba(255, 51, 51, 0.10), transparent 45%);
-            animation: floatGlow 10s ease-in-out infinite alternate;
-            pointer-events: none;
-            z-index: 0;
-        }
-
-        @keyframes floatGlow {
-            0%   { transform: translate(0, 0) scale(1); }
-            100% { transform: translate(-3%, 3%) scale(1.08); }
-        }
-
-        /* --- الشاشة الافتتاحية --- */
-        #splash-screen {
-            position: fixed;
-            inset: 0;
-            background: #0a0000;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            z-index: 9999;
-            transition: opacity 0.6s ease, visibility 0.6s ease;
-        }
-
-        .splash-logo-img {
-            width: 130px;
-            height: 130px;
-            object-fit: contain;
-            border-radius: 50%;
-            box-shadow: 0 0 40px var(--red-soft);
-            animation: pulseLogo 1.2s infinite alternate;
-        }
-
-        .splash-text {
-            margin-top: 20px;
-            font-size: 26px;
-            font-weight: 900;
-            letter-spacing: 2px;
-            color: white;
-            text-transform: uppercase;
-        }
-
-        .splash-dots {
-            margin-top: 14px;
-            display: flex;
-            gap: 6px;
-        }
-
-        .splash-dots span {
-            width: 7px;
-            height: 7px;
-            border-radius: 50%;
-            background: var(--red);
-            animation: dotBounce 1.2s infinite ease-in-out;
-        }
-
-        .splash-dots span:nth-child(2) { animation-delay: 0.15s; }
-        .splash-dots span:nth-child(3) { animation-delay: 0.3s; }
-
-        @keyframes dotBounce {
-            0%, 80%, 100% { transform: translateY(0); opacity: 0.4; }
-            40% { transform: translateY(-6px); opacity: 1; }
-        }
-
-        @keyframes pulseLogo {
-            0%   { transform: scale(1); box-shadow: 0 0 20px rgba(255, 51, 51, 0.4); }
-            100% { transform: scale(1.08); box-shadow: 0 0 60px rgba(255, 51, 51, 1); }
-        }
-
-        /* --- المحتوى الرئيسي --- */
-        .container {
-            width: 90%;
-            max-width: 450px;
-            margin: auto;
-            padding: 30px 0;
-            opacity: 0;
-            transform: translateY(30px);
-            transition: opacity 0.8s cubic-bezier(0.25, 0.8, 0.25, 1), transform 0.8s cubic-bezier(0.25, 0.8, 0.25, 1);
-            position: relative;
-            z-index: 1;
-        }
-
-        .container.show {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        .logo-container {
-            position: relative;
-            display: inline-block;
-        }
-
-        .logo {
-            position: relative;
-            width: 120px;
-            height: 120px;
-            margin: 0 auto 18px;
-        }
-
-        .logo img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            border-radius: 50%;
-            border: 3px solid var(--red);
-            box-shadow: 0 0 30px var(--red-soft);
-            position: relative;
-            z-index: 2;
-            background: #0a0000;
-        }
-
-        /* حلقة نبض هادئة حول الشعار */
-        .logo::after {
-            content: "";
-            position: absolute;
-            inset: -8px;
-            border-radius: 50%;
-            border: 1px solid rgba(255, 51, 51, 0.4);
-            animation: ringPulse 2.6s ease-out infinite;
-            z-index: 1;
-        }
-
-        @keyframes ringPulse {
-            0%   { transform: scale(0.9); opacity: 0.8; }
-            100% { transform: scale(1.35); opacity: 0; }
-        }
-
-        .name {
-            font-size: 30px;
-            font-weight: 900;
-            letter-spacing: 1px;
-            margin-bottom: 6px;
-            text-shadow: 0 2px 12px rgba(255, 51, 51, 0.35);
-        }
-
-        .subtitle {
-            color: #ff9999;
-            font-size: 15px;
-            margin-bottom: 32px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 8px;
-        }
-
-        /* --- الأزرار --- */
-        .links-wrapper {
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-        }
-
-        .button {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: var(--glass);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border: 1px solid var(--glass-border);
-            color: white;
-            text-decoration: none;
-            padding: 18px 20px;
-            border-radius: 20px;
-            font-size: 18px;
-            font-weight: 700;
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.25);
-            transition: transform 0.2s ease, background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
-            position: relative;
-            opacity: 0;
-            transform: translateY(20px);
-            overflow: hidden;
-        }
-
-        /* لمعة خفيفة تمر فوق الزر عند التحويم (أجهزة تدعم hover) */
-        @media (hover: hover) {
-            .button:hover {
-                border-color: rgba(255, 255, 255, 0.3);
-                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
-                transform: translateY(-2px);
-            }
-        }
-
-        .button:active {
-            transform: scale(0.96) !important;
-            background: rgba(255, 51, 51, 0.9);
-        }
-
-        .container.show .button {
-            animation: slideUp 0.6s forwards;
-        }
-
-        .container.show .button:nth-child(1) { animation-delay: 0.2s; }
-        .container.show .button:nth-child(2) { animation-delay: 0.3s; }
-        .container.show .button:nth-child(3) { animation-delay: 0.4s; }
-        .container.show .button:nth-child(4) { animation-delay: 0.5s; }
-        .container.show .button:nth-child(5) { animation-delay: 0.6s; }
-
-        @keyframes slideUp {
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .button i {
-            position: absolute;
-            right: 20px;
-            font-size: 24px;
-        }
-
-        .btn-menu i { color: #ffcc00; }
-        .btn-whatsapp i { color: #25D366; }
-        .btn-instagram i { color: #E1306C; }
-        .btn-tiktok i { color: #ffffff; }
-        .btn-facebook i { color: #1877F2; }
-
-        .footer {
-            margin-top: 40px;
-            font-size: 13px;
-            color: rgba(255, 255, 255, 0.5);
-            letter-spacing: 1px;
-        }
-
-        .footer a {
-            color: rgba(255, 255, 255, 0.5);
-            text-decoration: none;
-            transition: color 0.25s ease;
-        }
-
-        .footer a:hover,
-        .footer a:active {
-            color: rgba(255, 255, 255, 0.8);
-        }
-
-        .footer span {
-            color: var(--red);
-            font-weight: bold;
-        }
-    </style>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <!-- الشاشة الافتتاحية -->
-    <div id="splash-screen">
-        <img src="logo.png" alt="LaCasa Burger Loading" class="splash-logo-img">
-        <div class="splash-text">LaCasa Burger</div>
-        <div class="splash-dots"><span></span><span></span><span></span></div>
+<main class="page">
+
+  <div class="scene-glow" aria-hidden="true"></div>
+  <div class="vault-emblem" aria-hidden="true"></div>
+
+  <div class="container" id="mainContent">
+
+    <div class="logo-badge reveal r1">
+      <img src="assets/images/logo.png" alt="شعار لاكاسا برجر" width="96" height="96">
     </div>
 
-    <!-- المحتوى الرئيسي -->
-    <div class="container" id="main-content">
+    <p class="brand-kicker reveal r2">LACASA BURGER</p>
+    <h1 class="brand-title reveal r3">لاكاسا <span>برجر</span></h1>
+    <p class="tagline reveal r4">خطّة محكمة… لطعم لا يُقاوم</p>
 
-        <div class="logo-container">
-            <div class="logo">
-                <img src="logo.png" alt="LaCasa Burger Logo">
-            </div>
-        </div>
-
-        <div class="name">LaCasa Burger</div>
-
-        <div class="subtitle">
-            <i class="fa-solid fa-location-dot"></i> الفلوجة - شارع الثرثار
-        </div>
-
-        <div class="links-wrapper">
-            <a class="button btn-menu" href="https://alwathiqservices.github.io/lacasaburger1/" target="_blank" rel="noopener">
-                <i class="fa-solid fa-utensils"></i> مشاهدة المنيو
-            </a>
-
-            <a class="button btn-instagram" href="https://www.instagram.com/lacasa_burger1" target="_blank" rel="noopener">
-                <i class="fa-brands fa-instagram"></i> انستغرام
-            </a>
-
-            <a class="button btn-tiktok" href="https://www.tiktok.com/@lacasa_burger1" target="_blank" rel="noopener">
-                <i class="fa-brands fa-tiktok"></i> تيك توك
-            </a>
-
-            <a class="button btn-facebook" href="https://www.facebook.com/share/18UTYxck98/?mibextid=wwXIfr" target="_blank" rel="noopener">
-                <i class="fa-brands fa-facebook-f"></i> فيسبوك
-            </a>
-        </div>
-
-        <div class="footer">
-            © <a href="https://www.instagram.com/alwathiqservices" target="_blank" rel="noopener"><span>Alwathiq</span>Services</a>
-        </div>
-
+    <div class="scene-card reveal r5">
+      <div class="scene-vignette"></div>
+      <img src="assets/images/burger-hero.png" alt="برجر لاكاسا الشهي" class="scene-img" width="640" height="620" loading="eager">
+      <div class="scene-shine"></div>
     </div>
 
-    <script>
-        document.addEventListener("DOMContentLoaded", () => {
-            setTimeout(() => {
-                const splash = document.getElementById('splash-screen');
-                const content = document.getElementById('main-content');
+    <a class="menu-btn reveal r6" id="menuBtn" href="https://alwathiqservices.github.io/lacasanew/">
+      <i class="fa-solid fa-utensils" aria-hidden="true"></i>
+      <span>تصفّح المنيو</span>
+      <i class="fa-solid fa-arrow-left menu-btn-arrow" aria-hidden="true"></i>
+    </a>
+    <p class="menu-caption reveal r6">اختار وجبتك المفضّلة</p>
 
-                splash.style.opacity = '0';
-                splash.style.visibility = 'hidden';
+    <p class="location reveal r7">
+      <i class="fa-solid fa-location-dot" aria-hidden="true"></i>
+      الفلوجة — شارع الثرثار
+    </p>
 
-                content.classList.add('show');
-            }, 2000);
-        });
-    </script>
+    <button class="install-btn reveal r7" id="installBtn" type="button" hidden>
+      <i class="fa-solid fa-arrow-down-to-line" aria-hidden="true"></i>
+      أضف للشاشة الرئيسية
+    </button>
 
+    <h2 class="social-title reveal r7">تابع أجواء لاكاسا</h2>
+    <div class="social-row reveal r7">
+      <a class="social-btn ig" href="https://www.instagram.com/lacasa_burger1" target="_blank" rel="noopener" aria-label="إنستغرام">
+        <i class="fa-brands fa-instagram" aria-hidden="true"></i>
+      </a>
+      <a class="social-btn tt" href="https://www.tiktok.com/@lacasa_burger1" target="_blank" rel="noopener" aria-label="تيك توك">
+        <i class="fa-brands fa-tiktok" aria-hidden="true"></i>
+      </a>
+      <a class="social-btn fb" href="https://www.facebook.com/share/18UTYxck98/?mibextid=wwXIfr" target="_blank" rel="noopener" aria-label="فيسبوك">
+        <i class="fa-brands fa-facebook-f" aria-hidden="true"></i>
+      </a>
+    </div>
+
+    <div class="footer">
+      © <a href="https://www.instagram.com/alwathiqservices" target="_blank" rel="noopener"><span>Alwathiq</span>Services</a>
+    </div>
+
+  </div>
+</main>
+
+<!-- إرشاد التثبيت على iPhone (يظهر فقط عند الضغط على زر "أضف للشاشة الرئيسية" على iOS) -->
+<div class="ios-sheet-overlay" id="iosSheetOverlay"></div>
+<div class="ios-sheet" id="iosSheet" role="dialog" aria-modal="true" aria-labelledby="iosSheetTitle">
+  <div class="ios-sheet-handle"></div>
+  <h3 id="iosSheetTitle">إضافة إلى الشاشة الرئيسية</h3>
+  <ol>
+    <li>افتح الصفحة عبر متصفح <strong>Safari</strong>.</li>
+    <li>اضغط زر <strong>المشاركة</strong> <i class="fa-solid fa-arrow-up-from-bracket"></i> بالأسفل.</li>
+    <li>اختر <strong>"إضافة إلى الشاشة الرئيسية"</strong>.</li>
+  </ol>
+  <button class="ios-sheet-close" id="iosSheetClose" type="button">حسناً</button>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script src="script.js"></script>
 </body>
 </html>
